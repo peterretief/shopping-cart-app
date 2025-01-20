@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Checkout</h2>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Order Summary
+                </div>
+                <div class="card-body">
+                    {% for item in cart_items %}
+                    <div class="row mb-2">
+                        <div class="col-6">{{ item.vegetable.name }} x {{ item.quantity }}</div>
+                        <div class="col-6 text-end">${{ item.subtotal }}</div>
+                    </div>
+                    {% endfor %}
+                    <hr>
+                    <div class="row">
+                        <div class="col-6"><strong>Total:</strong></div>
+                        <div class="col-6 text-end"><strong>${{ total }}</strong></div>
+                    </div>
+                </div>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Confirm Order</button>
+                <a href="{% url 'cart' %}" class="btn btn-secondary">Back to Cart</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
