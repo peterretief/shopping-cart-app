@@ -1,0 +1,6 @@
+_list.html
+<div class="card-body">
+    <h5 class="card-title">{{ vegetable.name }}</h5>
+    <p class="card-text">{{ vegetable.description }}</p>
+    <p class="card-text">Price: R{{ vegetable.price }}</p>
+</div>

@@ -14,13 +14,13 @@
                     {% for item in cart_items %}
                     <div class="row mb-2">
                         <div class="col-6">{{ item.vegetable.name }} x {{ item.quantity }}</div>
-                        <div class="col-6 text-end">${{ item.subtotal }}</div>
+                        <div class="col-6 text-end">R{{ item.subtotal }}</div>
                     </div>
                     {% endfor %}
                     <hr>
                     <div class="row">
                         <div class="col-6"><strong>Total:</strong></div>
-                        <div class="col-6 text-end"><strong>${{ total }}</strong></div>
+                        <div class="col-6 text-end"><strong>R{{ total }}</strong></div>
                     </div>
                 </div>
             </div>

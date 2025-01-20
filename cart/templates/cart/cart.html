@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h5>{{ item.vegetable.name }}</h5>
-                            <p>Price: ${{ item.vegetable.price }}</p>
+                            <p>Price: R{{ item.vegetable.price }}</p>
                         </div>
                         <div class="col-md-3">
                             <form method="post" action="{% url 'update_quantity' item.vegetable.id %}">
@@ -22,7 +22,7 @@
                             </form>
                         </div>
                         <div class="col-md-3 text-end">
-                            <p>Subtotal: ${{ item.subtotal }}</p>
+                            <p>Subtotal: R{{ item.subtotal }}</p>
                             <a href="{% url 'remove_from_cart' item.vegetable.id %}" class="btn btn-danger">Remove</a>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
         
         <div class="card mb-4">
             <div class="card-body">
-                <h5>Total: ${{ total }}</h5>
+                <h5>Total: R{{ total }}</h5>
             </div>
         </div>
 

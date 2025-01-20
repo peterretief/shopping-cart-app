@@ -6,6 +6,9 @@ from django.contrib import messages
 from django.views.generic import ListView
 from .models import Vegetable, CartItem, Order
 from decimal import Decimal
+from django.db.models import Sum, F
+from .models import OrderItem, Vegetable
+from django.contrib.admin.views.decorators import staff_member_required
 
 def home(request):
     return render(request, 'cart/home.html')
@@ -99,3 +102,27 @@ def checkout(request):
 def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'cart/order_confirmation.html', {'order': order})
+
+@staff_member_required
+def vegetable_order_summary(request):
+    # Debug prints
+    print("All Orders:", Order.objects.all().count())
+    print("All OrderItems:", OrderItem.objects.all().count())
+    
+    # Simplified query first
+    order_items = OrderItem.objects.select_related('order', 'vegetable').all()
+    
+    # Print results
+    print("Query Results:", len(order_items))
+    
+    return render(request, 'cart/vegetable_summary.html', {
+        'orders': order_items
+    })
+
+@staff_member_required
+def complete_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order.complete = True
+    order.save()
+    messages.success(request, f'Order #{order.id} marked as complete')
+    return redirect('vegetable_summary')

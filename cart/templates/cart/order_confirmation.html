@@ -13,17 +13,16 @@
                     <p>Thank you for your order. Your items will be delivered soon.</p>
                     
                     <h6 class="mt-4">Order Details:</h6>
-                    {% for item in order.items.all %}
-                    <div class="row mb-2">
-                        <div class="col-6">{{ item.vegetable.name }} x {{ item.quantity }}</div>
-                        <div class="col-6 text-end">${{ item.price }}</div>
-                    </div>
-                    {% endfor %}
-                    
-                    <hr>
                     <div class="row">
-                        <div class="col-6"><strong>Total Amount:</strong></div>
-                        <div class="col-6 text-end"><strong>${{ order.total_amount }}</strong></div>
+                        {% for item in order.items.all %}
+                        <div class="col-6">{{ item.vegetable.name }} x {{ item.quantity }}</div>
+                        <div class="col-6 text-end">R{{ item.price }}</div>
+                        {% endfor %}
+                        <hr>
+                        <div class="row">
+                            <div class="col-6"><strong>Total Amount:</strong></div>
+                            <div class="col-6 text-end"><strong>R{{ order.total_amount }}</strong></div>
+                        </div>
                     </div>
                     
                     <div class="mt-4">
