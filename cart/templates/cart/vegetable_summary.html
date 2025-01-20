@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Order Summary</h2>
+    <h2>Pending Orders</h2>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -34,5 +34,49 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <div class="row mt-5">
+        <!-- Pending Orders Summary -->
+        <div class="col-md-6">
+            <h3>Pending Orders Summary</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Vegetable</th>
+                        <th>Total Pending</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in pending_summary %}
+                    <tr>
+                        <td>{{ item.vegetable__name }}</td>
+                        <td>{{ item.total_quantity }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- All Orders Summary -->
+        <div class="col-md-6">
+            <h3>All Orders Summary</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Vegetable</th>
+                        <th>Total Ordered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in summary_totals %}
+                    <tr>
+                        <td>{{ item.vegetable__name }}</td>
+                        <td>{{ item.total_quantity }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -58,27 +58,44 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1>Vegetables</h1>
-    <div class="row g-4">
-        {% for vegetable in vegetables %}
-        <div class="col-md-4">
-            <div class="card">
-                {% if vegetable.image %}
-                <img src="{{ vegetable.image.url }}" class="card-img-top" alt="{{ vegetable.name }}">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ vegetable.name }}</h5>
-                    <p class="card-text">{{ vegetable.description }}</p>
-                    <p class="card-text">Price: R{{ vegetable.price }}</p>
-                    <form method="post" action="{% url 'add_to_cart' vegetable.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
-                    </form>
+<div class="container mt-4">
+    <!-- Search Form -->
+    <div class="row mb-4">
+        <div class="col-md-6 mx-auto">
+            <form method="get" class="d-flex">
+                <input type="text" 
+                       name="search" 
+                       class="form-control me-2" 
+                       placeholder="Search vegetables..." 
+                       value="{{ request.GET.search|default:'' }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Existing Vegetables Grid -->
+    <div class="container mt-5">
+        <h1>Vegetables</h1>
+        <div class="row g-4">
+            {% for vegetable in vegetables %}
+            <div class="col-md-4">
+                <div class="card">
+                    {% if vegetable.image %}
+                    <img src="{{ vegetable.image.url }}" class="card-img-top" alt="{{ vegetable.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ vegetable.name }}</h5>
+                        <p class="card-text">{{ vegetable.description }}</p>
+                        <p class="card-text">Price: R{{ vegetable.price }}</p>
+                        <form method="post" action="{% url 'add_to_cart' vegetable.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}

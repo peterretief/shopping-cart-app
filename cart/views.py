@@ -29,6 +29,13 @@ class VegetableListView(ListView):
     template_name = 'cart/vegetable_list.html'
     context_object_name = 'vegetables'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_term = self.request.GET.get('search')
+        if search_term:
+            queryset = queryset.filter(name__icontains=search_term)
+        return queryset
+
 @login_required
 def add_to_cart(request, veg_id):
     veg = get_object_or_404(Vegetable, id=veg_id)
@@ -105,6 +112,7 @@ def order_confirmation(request, order_id):
 
 @staff_member_required
 def vegetable_order_summary(request):
+    # Get pending orders
     order_items = OrderItem.objects.values(
         'order__id',
         'order__date_ordered',
@@ -116,10 +124,30 @@ def vegetable_order_summary(request):
         date_ordered=F('order__date_ordered'),
         vegetable_name=F('vegetable__name'),
         complete=F('order__complete')
+    ).filter(
+        order__complete=False
     ).order_by('-order__date_ordered')
 
+    # Get pending orders summary
+    pending_summary = OrderItem.objects.values(
+        'vegetable__name'
+    ).filter(
+        order__complete=False
+    ).annotate(
+        total_quantity=Sum('quantity')
+    ).order_by('-total_quantity')
+
+    # Get all orders summary
+    summary_totals = OrderItem.objects.values(
+        'vegetable__name'
+    ).annotate(
+        total_quantity=Sum('quantity')
+    ).order_by('-total_quantity')
+
     return render(request, 'cart/vegetable_summary.html', {
-        'orders': order_items
+        'orders': order_items,
+        'pending_summary': pending_summary,
+        'summary_totals': summary_totals
     })
 
 @staff_member_required
