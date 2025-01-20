@@ -105,16 +105,19 @@ def order_confirmation(request, order_id):
 
 @staff_member_required
 def vegetable_order_summary(request):
-    # Debug prints
-    print("All Orders:", Order.objects.all().count())
-    print("All OrderItems:", OrderItem.objects.all().count())
-    
-    # Simplified query first
-    order_items = OrderItem.objects.select_related('order', 'vegetable').all()
-    
-    # Print results
-    print("Query Results:", len(order_items))
-    
+    order_items = OrderItem.objects.values(
+        'order__id',
+        'order__date_ordered',
+        'vegetable__name',
+        'quantity',
+        'order__complete'
+    ).annotate(
+        order_id=F('order__id'),
+        date_ordered=F('order__date_ordered'),
+        vegetable_name=F('vegetable__name'),
+        complete=F('order__complete')
+    ).order_by('-order__date_ordered')
+
     return render(request, 'cart/vegetable_summary.html', {
         'orders': order_items
     })
