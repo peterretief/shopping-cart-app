@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-sq2&nop5w%=$_mq(*!3vf(x3)u%(sgfai=2gbgoo8bi5xvhp!#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["peter.mywagtail.co.za", "127.0.0.1"]
 
 # Application definition
 
@@ -42,6 +41,14 @@ INSTALLED_APPS = [
 ]
 
 STATIC_URL = '/static/'
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = '/home/ubuntu/sites/peter/static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/home/peter/sites/veg_shop/media/'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
